@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
 
 # Configurar la página para que se despliegue horizontalmente
 st.set_page_config(layout="wide")
@@ -14,7 +13,7 @@ st.subheader("Análisis exploratorio de datos")
 
 # Descripción o texto adicional
 st.write("Esta aplicación permite realizar un análisis exploratorio de datos de forma interactiva. Elaborado por: Dr. José Luis Soto Ortiz")
-st.write("Los datos fueron obtenidso de github para su uso demostrativo.")
+st.write("Los datos fueron obtenidos de GitHub para su uso demostrativo.")
 
 # Cargar datos desde GitHub
 url = "https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv"
@@ -40,17 +39,13 @@ col3, col4 = st.columns(2)  # Dividir la sección en dos columnas
 with col3:
     st.write("Histograma por característica")
     feature = st.selectbox("Selecciona una característica para graficar:", df.columns[:-1])
-    fig, ax = plt.subplots()
-    sns.histplot(df[feature], kde=True, ax=ax)
-    ax.set_title(f"Distribución de {feature}")
-    st.pyplot(fig)
+    fig = px.histogram(df, x=feature, nbins=20, title=f"Distribución de {feature}")
+    st.plotly_chart(fig)
 
 # Gráfico de dispersión en la segunda columna
 with col4:
     st.write("Gráfico de Dispersión entre dos variables")
-    x_axis = st.selectbox("Selecciona la variable del eje X", df.columns[:-1])
-    y_axis = st.selectbox("Selecciona la variable del eje Y", df.columns[:-1])
-    fig2, ax2 = plt.subplots()
-    sns.scatterplot(data=df, x=x_axis, y=y_axis, hue="species", ax=ax2)
-    ax2.set_title(f"Dispersión entre {x_axis} y {y_axis}")
-    st.pyplot(fig2)
+    x_axis = st.selectbox("Selecciona la variable del eje X", df.columns[:-1], key='xaxis')
+    y_axis = st.selectbox("Selecciona la variable del eje Y", df.columns[:-1], key='yaxis')
+    fig2 = px.scatter(df, x=x_axis, y=y_axis, color="species", title=f"Dispersión entre {x_axis} y {y_axis}")
+    st.plotly_chart(fig2)
