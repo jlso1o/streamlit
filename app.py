@@ -1,3 +1,12 @@
+import os
+import subprocess
+
+# Instala matplotlib en tiempo de ejecución si no está instalado
+try:
+    import matplotlib
+except ImportError:
+    subprocess.check_call([os.sys.executable, '-m', 'pip', 'install', 'matplotlib'])
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
