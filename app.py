@@ -1,5 +1,3 @@
-import os
-import subprocess
 import matplotlib
 import streamlit as st
 import pandas as pd
